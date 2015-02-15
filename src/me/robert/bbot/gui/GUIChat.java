@@ -1,19 +1,26 @@
-package me.robert.bbot;
+package me.robert.bbot.gui;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class GUIChat
+import javax.swing.JTextArea;
+
+import me.robert.bbot.BBot;
+
+public class GUIChat implements WritableGUI
 {
 
 	private JFrame frame;
 	private static JTextField channelName;
 	private static JTextField botName;
 	private static JPasswordField oAuth;
+	private static JTextArea chatArea = new JTextArea();
+	private static JTextField messageArea;
 
 	/**
 	 * Launch the application.
@@ -53,7 +60,7 @@ public class GUIChat
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				new BBot();
+				(new Thread(new BBot())).start();
 			}
 		});
 		btnConnect.setBounds(676, 10, 89, 23);
@@ -68,6 +75,19 @@ public class GUIChat
 		oAuth = new JPasswordField();
 		oAuth.setBounds(356, 11, 310, 20);
 		frame.getContentPane().add(oAuth);
+
+		JButton btnSend = new JButton("Send");
+		btnSend.setBounds(676, 454, 89, 23);
+		frame.getContentPane().add(btnSend);
+
+		messageArea = new JTextField();
+		messageArea.setBounds(10, 455, 656, 20);
+		frame.getContentPane().add(messageArea);
+		messageArea.setColumns(10);
+
+		chatArea.setEditable(false);
+		chatArea.setBounds(10, 42, 656, 406);
+		frame.getContentPane().add(chatArea);
 	}
 
 	public static JTextField getChannelName()
@@ -98,5 +118,11 @@ public class GUIChat
 	public static void setoAuth(JPasswordField oAuth)
 	{
 		GUIChat.oAuth = oAuth;
+	}
+
+	@Override
+	public void write(String s)
+	{
+		chatArea.append(s + System.lineSeparator());
 	}
 }
