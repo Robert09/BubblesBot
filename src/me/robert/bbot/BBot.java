@@ -3,6 +3,7 @@ package me.robert.bbot;
 import java.io.IOException;
 
 import me.robert.bbot.command.BaseCommand;
+import me.robert.bbot.events.JoinEvent;
 import me.robert.bbot.gui.GUIChat;
 import me.robert.bbot.util.ChatUtil;
 import me.robert.bbot.util.Vars;
@@ -12,8 +13,7 @@ import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.exception.IrcException;
 
-public class BBot implements Runnable
-{
+public class BBot implements Runnable {
 	private static String botName = GUIChat.getBotName().getText();
 	private static String channelName = "#"
 			+ GUIChat.getChannelName().getText();
@@ -26,24 +26,20 @@ public class BBot implements Runnable
 			.setServerHostname(Vars.SERVER_NAME)
 			.setServerPort(Vars.SERVER_PORT).setName(botName).setLogin(botName)
 			.setServerPassword(oAuth).addAutoJoinChannel(channelName)
-			.addListener(new ChatUtil()).addListener(new BaseCommand()
-			{
+			.addListener(new ChatUtil()).addListener(new JoinEvent())
+			.addListener(new BaseCommand() {
 			}).buildConfiguration();
 
-	public BBot()
-	{
+	public BBot() {
 
 	}
 
 	@Override
-	public void run()
-	{
+	public void run() {
 		PircBotX twitch = new PircBotX(bot);
-		try
-		{
+		try {
 			twitch.startBot();
-		} catch (IOException | IrcException e)
-		{
+		} catch (IOException | IrcException e) {
 			e.printStackTrace();
 		}
 	}

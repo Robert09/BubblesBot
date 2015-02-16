@@ -1,5 +1,14 @@
 TODO:
 	- Create a ConfigHandler.
+		- Try to make it with YAML. (Because I like the layout of YAML files!)
+		- Add commands method.
+		- Remove commands method.
+		- Get commands method.
 	- Add commands
 		- Allow users to make commands with !addcom
+	- User join message.
+		- Check lurkers.yml for user name.
+			- If they are in the lurkers.yml file do not welcome them!
 	- Work on a better looking GUI
+		- Add a user list to the GUI
+			- Every time a user joins / leaves add / remove them from the user list.

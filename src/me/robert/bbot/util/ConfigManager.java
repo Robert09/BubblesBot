@@ -32,7 +32,7 @@ public class ConfigManager {
 
 	public void setCommands() {
 		try {
-			Yaml.dump(commands, new File("commands.yml"));
+			Yaml.dump(commands, file);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -40,7 +40,7 @@ public class ConfigManager {
 
 	public Object getCommands() {
 		try {
-			Object object = Yaml.load(new File("object.yml"));
+			Object object = Yaml.load(file);
 			return object;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

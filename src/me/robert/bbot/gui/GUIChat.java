@@ -23,6 +23,7 @@ public class GUIChat implements WritableGUI {
 	private static JTextField botName;
 	private static JPasswordField oAuth;
 	private static JTextArea chatArea = new JTextArea();
+	JTextArea userList = new JTextArea();
 	private static JTextField messageArea;
 
 	/**
@@ -97,7 +98,8 @@ public class GUIChat implements WritableGUI {
 		btnSend.setToolTipText("Click to send your message");
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ChatUtil.sendMessage(messageArea.getText());
+				ChatUtil.sendMessage(messageArea.getText(), getBotName()
+						.getText());
 				messageArea.setText("");
 			}
 		});
@@ -116,8 +118,14 @@ public class GUIChat implements WritableGUI {
 		chatArea.setBackground(Color.LIGHT_GRAY);
 
 		chatArea.setEditable(false);
-		chatArea.setBounds(10, 42, 656, 406);
+		chatArea.setBounds(10, 42, 610, 406);
 		frmBubblesofficialbot.getContentPane().add(chatArea);
+
+		userList.setBackground(Color.LIGHT_GRAY);
+		userList.setForeground(Color.DARK_GRAY);
+		userList.setEditable(false);
+		userList.setBounds(630, 44, 135, 406);
+		frmBubblesofficialbot.getContentPane().add(userList);
 	}
 
 	public static JTextField getChannelName() {
@@ -145,7 +153,12 @@ public class GUIChat implements WritableGUI {
 	}
 
 	@Override
-	public void write(String s, User user) {
+	public void writeToChat(String s, User user) {
 		chatArea.append(s + System.lineSeparator());
+	}
+
+	@Override
+	public void writeToUsers(String s) {
+		userList.append(s + System.lineSeparator());
 	}
 }

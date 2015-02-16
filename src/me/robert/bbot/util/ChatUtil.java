@@ -6,29 +6,35 @@ import org.pircbotx.Channel;
 import org.pircbotx.PircBotX;
 import org.pircbotx.User;
 import org.pircbotx.hooks.ListenerAdapter;
+import org.pircbotx.hooks.events.JoinEvent;
 import org.pircbotx.hooks.events.MessageEvent;
 
-public class ChatUtil extends ListenerAdapter<PircBotX>
-{
+public class ChatUtil extends ListenerAdapter<PircBotX> {
 	public static Channel channel;
 	public static User user;
 
+	public ChatUtil() {
+
+	}
+
 	@Override
-	public void onMessage(MessageEvent<PircBotX> event) throws Exception
-	{
+	public void onJoin(JoinEvent<PircBotX> event) throws Exception {
+		ChatUtil.channel = event.getChannel();
+	}
+
+	@Override
+	public void onMessage(MessageEvent<PircBotX> event) throws Exception {
 		String message = event.getMessage();
 		String userName = event.getUser().getNick();
-		ChatUtil.channel = event.getChannel();
 
 		ChatUtil.user = event.getUser();
 
 		super.onMessage(event);
-		GUIChat.getInstance().write(userName + ": " + message, user);
+		GUIChat.getInstance().writeToChat(userName + ": " + message, user);
 	}
 
-	public static void sendMessage(String s)
-	{
+	public static void sendMessage(String s, String botName) {
 		channel.send().message(s);
-		GUIChat.getInstance().write("BubblesOfficialBot: " + s, user);
+		GUIChat.getInstance().writeToChat(botName + ": " + s, user);
 	}
 }
