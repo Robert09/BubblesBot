@@ -1,19 +1,23 @@
 package me.robert.bbot.command;
 
-import me.robert.bbot.gui.GUIChat;
-
+import org.pircbotx.Channel;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 
-public class BaseCommand extends ListenerAdapter<PircBotX>
+public abstract class BaseCommand extends ListenerAdapter<PircBotX>
 {
-	GUIChat chat = new GUIChat();
-	
 	@Override
 	public void onMessage(MessageEvent<PircBotX> event) throws Exception
 	{
-		super.onMessage(event);
-		chat.write(event.getMessage());
+		String message = event.getMessage();
+		String userName = event.getUser().getNick();
+		Channel channel = event.getChannel();
+
+		if (message.equalsIgnoreCase("!bubbles"))
+		{
+			channel.send().message(
+					"/me " + userName + ", O3Bubbles09 is awesome!");
+		}
 	}
 }

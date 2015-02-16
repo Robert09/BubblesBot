@@ -1,0 +1,5 @@
+TODO:
+	- Create a ConfigHandler.
+	- Add commands
+		- Allow users to make commands with !addcom
+	- Work on a better looking GUI
