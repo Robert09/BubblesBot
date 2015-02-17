@@ -3,9 +3,9 @@ package me.robert.bbot;
 import java.io.IOException;
 
 import me.robert.bbot.command.BaseCommand;
-import me.robert.bbot.events.JoinEvent;
 import me.robert.bbot.gui.GUIChat;
 import me.robert.bbot.util.ChatUtil;
+import me.robert.bbot.util.UserList;
 import me.robert.bbot.util.Vars;
 
 import org.pircbotx.Channel;
@@ -26,7 +26,7 @@ public class BBot implements Runnable {
 			.setServerHostname(Vars.SERVER_NAME)
 			.setServerPort(Vars.SERVER_PORT).setName(botName).setLogin(botName)
 			.setServerPassword(oAuth).addAutoJoinChannel(channelName)
-			.addListener(new ChatUtil()).addListener(new JoinEvent())
+			.addListener(new ChatUtil()).addListener(new UserList())
 			.addListener(new BaseCommand() {
 			}).buildConfiguration();
 

@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
 
 import me.robert.bbot.BBot;
 import me.robert.bbot.util.ChatUtil;
@@ -23,7 +26,7 @@ public class GUIChat implements WritableGUI {
 	private static JTextField botName;
 	private static JPasswordField oAuth;
 	private static JTextArea chatArea = new JTextArea();
-	JTextArea userList = new JTextArea();
+	private static JTextArea userList = new JTextArea();
 	private static JTextField messageArea;
 
 	/**
@@ -32,6 +35,20 @@ public class GUIChat implements WritableGUI {
 	public static void main(String[] args) {
 		GUIChat window = new GUIChat();
 		window.frmBubblesofficialbot.setVisible(true);
+		Random r = new Random();
+		Random g = new Random();
+		Random b = new Random();
+
+		int changeColor = 0;
+
+		while (true) {
+			if (changeColor == 1000000000) {
+				userList.setBackground(new Color(r.nextInt(254),
+						g.nextInt(254), b.nextInt(254)));
+				changeColor = 0;
+			}
+			changeColor++;
+		}
 	}
 
 	/**
@@ -42,6 +59,7 @@ public class GUIChat implements WritableGUI {
 	}
 
 	private static GUIChat instance = new GUIChat();
+	private JScrollPane userList_ScrollPane;
 
 	public static GUIChat getInstance() {
 		return instance;
@@ -98,8 +116,7 @@ public class GUIChat implements WritableGUI {
 		btnSend.setToolTipText("Click to send your message");
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ChatUtil.sendMessage(messageArea.getText(), getBotName()
-						.getText());
+				ChatUtil.sendMessageToChat(messageArea.getText());
 				messageArea.setText("");
 			}
 		});
@@ -113,12 +130,12 @@ public class GUIChat implements WritableGUI {
 		messageArea.setBounds(10, 455, 656, 20);
 		frmBubblesofficialbot.getContentPane().add(messageArea);
 		messageArea.setColumns(10);
-		chatArea.setForeground(Color.RED);
+
 		chatArea.setLineWrap(true);
 		chatArea.setBackground(Color.LIGHT_GRAY);
-
+		chatArea.setForeground(Color.RED);
 		chatArea.setEditable(false);
-		chatArea.setBounds(10, 42, 610, 406);
+		chatArea.setBounds(10, 42, 583, 406);
 		frmBubblesofficialbot.getContentPane().add(chatArea);
 
 		userList.setBackground(Color.LIGHT_GRAY);
@@ -126,6 +143,18 @@ public class GUIChat implements WritableGUI {
 		userList.setEditable(false);
 		userList.setBounds(630, 44, 135, 406);
 		frmBubblesofficialbot.getContentPane().add(userList);
+
+		JScrollPane chatArea_ScrollPane = new JScrollPane(chatArea);
+		chatArea_ScrollPane.setViewportBorder(new BevelBorder(
+				BevelBorder.LOWERED, null, null, null, null));
+		chatArea_ScrollPane.setBounds(10, 42, 583, 406);
+		frmBubblesofficialbot.getContentPane().add(chatArea_ScrollPane);
+
+		userList_ScrollPane = new JScrollPane(userList);
+		userList_ScrollPane.setViewportBorder(new BevelBorder(
+				BevelBorder.LOWERED, null, null, null, null));
+		userList_ScrollPane.setBounds(629, 44, 136, 406);
+		frmBubblesofficialbot.getContentPane().add(userList_ScrollPane);
 	}
 
 	public static JTextField getChannelName() {
@@ -155,10 +184,17 @@ public class GUIChat implements WritableGUI {
 	@Override
 	public void writeToChat(String s, User user) {
 		chatArea.append(s + System.lineSeparator());
+		chatArea.append("------------------------------"
+				+ System.lineSeparator());
+		chatArea.setCaretPosition(chatArea.getDocument().getLength());
 	}
 
 	@Override
 	public void writeToUsers(String s) {
 		userList.append(s + System.lineSeparator());
+	}
+
+	public void clearUsers() {
+		userList.setText("");
 	}
 }

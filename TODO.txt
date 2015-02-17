@@ -9,6 +9,7 @@ TODO:
 	- User join message.
 		- Check lurkers.yml for user name.
 			- If they are in the lurkers.yml file do not welcome them!
-	- Work on a better looking GUI
-		- Add a user list to the GUI
-			- Every time a user joins / leaves add / remove them from the user list.
+	- Add sounds!
+	- Work on the User List some more.
+	- Add key listeners to use ENTER to send.
+	- Work on the scrolling.

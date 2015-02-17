@@ -12,6 +12,7 @@ import org.pircbotx.hooks.events.MessageEvent;
 public class ChatUtil extends ListenerAdapter<PircBotX> {
 	public static Channel channel;
 	public static User user;
+	public static String botName;
 
 	public ChatUtil() {
 
@@ -20,6 +21,7 @@ public class ChatUtil extends ListenerAdapter<PircBotX> {
 	@Override
 	public void onJoin(JoinEvent<PircBotX> event) throws Exception {
 		ChatUtil.channel = event.getChannel();
+		ChatUtil.botName = event.getBot().getNick();
 	}
 
 	@Override
@@ -33,8 +35,12 @@ public class ChatUtil extends ListenerAdapter<PircBotX> {
 		GUIChat.getInstance().writeToChat(userName + ": " + message, user);
 	}
 
-	public static void sendMessage(String s, String botName) {
+	public static void sendMessageToChat(String s) {
 		channel.send().message(s);
 		GUIChat.getInstance().writeToChat(botName + ": " + s, user);
+	}
+
+	public static void sendMessageToBot(String s) {
+		GUIChat.getInstance().writeToChat(s, user);
 	}
 }
