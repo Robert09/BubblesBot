@@ -14,18 +14,18 @@ import org.pircbotx.hooks.events.PingEvent;
 public class UserList extends ListenerAdapter<PircBotX> {
 	public static ArrayList<User> userList = new ArrayList<User>();
 
+	private UserList() {
+	}
+
+	private static UserList instance = new UserList();
+
+	public static UserList getInstance() {
+		return instance;
+	}
+
 	@Override
 	public void onJoin(org.pircbotx.hooks.events.JoinEvent<PircBotX> event) throws Exception {
 		refreshUserList();
-
-		if (!userList.isEmpty()) {
-			System.out.println(userList);
-			for (User users : userList) {
-				System.out.println(users.getNick());
-				GUIChat.getInstance().writeToUsers(users.getNick());
-			}
-		}
-
 		ChatUtil.sendMessageToBot(event.getUser().getNick() + " has joined!");
 	}
 
@@ -37,13 +37,6 @@ public class UserList extends ListenerAdapter<PircBotX> {
 	@Override
 	public void onPart(PartEvent<PircBotX> event) throws Exception {
 		refreshUserList();
-
-		if (!userList.isEmpty()) {
-			for (User users : userList) {
-				GUIChat.getInstance().writeToUsers(users.getNick());
-			}
-		}
-
 		ChatUtil.sendMessageToBot(event.getUser().getNick() + " has left!");
 	}
 
@@ -54,6 +47,11 @@ public class UserList extends ListenerAdapter<PircBotX> {
 			for (User user : channel.getUsers()) {
 				if (!userList.contains(user))
 					userList.add(user);
+			}
+
+			for (User user : userList) {
+				GUIChat.getInstance().writeToUsers(user.getNick());
+				System.out.println(userList.toString());
 			}
 			return userList;
 		}

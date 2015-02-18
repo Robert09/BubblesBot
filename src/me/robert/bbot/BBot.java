@@ -15,20 +15,16 @@ import org.pircbotx.exception.IrcException;
 
 public class BBot implements Runnable {
 	private static String botName = GUIChat.getBotName().getText();
-	private static String channelName = "#"
-			+ GUIChat.getChannelName().getText();
+	private static String channelName = "#" + GUIChat.getChannelName().getText();
 	@SuppressWarnings("deprecation")
 	private static String oAuth = GUIChat.getoAuth().getText();
 
 	Channel channel;
 
-	public static Configuration<PircBotX> bot = new Configuration.Builder<PircBotX>()
-			.setServerHostname(Vars.SERVER_NAME)
-			.setServerPort(Vars.SERVER_PORT).setName(botName).setLogin(botName)
-			.setServerPassword(oAuth).addAutoJoinChannel(channelName)
-			.addListener(new ChatUtil()).addListener(new UserList())
-			.addListener(new BaseCommand() {
-			}).buildConfiguration();
+	public static Configuration<PircBotX> bot = new Configuration.Builder<PircBotX>().setServerHostname(Vars.SERVER_NAME)
+			.setServerPort(Vars.SERVER_PORT).setName(botName).setLogin(botName).setServerPassword(oAuth).addAutoJoinChannel(channelName)
+			.addListener(new ChatUtil()).addListener(new BaseCommand() {
+			}).addListener(UserList.getInstance()).buildConfiguration();
 
 	public BBot() {
 

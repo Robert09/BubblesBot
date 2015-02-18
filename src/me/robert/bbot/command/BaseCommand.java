@@ -7,6 +7,7 @@ import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 
 public abstract class BaseCommand extends ListenerAdapter<PircBotX> {
+
 	@Override
 	public void onMessage(MessageEvent<PircBotX> event) throws Exception {
 		String message = event.getMessage();
@@ -14,6 +15,10 @@ public abstract class BaseCommand extends ListenerAdapter<PircBotX> {
 
 		if (message.equalsIgnoreCase("!bubbles")) {
 			ChatUtil.sendMessageToChat("/me O3Bubbles09 is awesome!");
+		}
+
+		if (message.equalsIgnoreCase("!sayhi")) {
+			ChatUtil.sendMessageToChat("/me Hello, I am O3Bubbles09's bot");
 		}
 
 		if (message.equalsIgnoreCase("!lurk")) {
