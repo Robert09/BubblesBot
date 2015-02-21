@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="C:/Users/Robert/Documents/commons-codec-1.10.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Robert/Documents/commons-lang3-3.3.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Robert/Documents/guava-18.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Robert/Documents/logback-classic-1.1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Robert/Documents/logback-core-1.1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Robert/Documents/pircbotx-2.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Robert/Documents/slf4j-api-1.7.10.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Robert/Documents/jyaml-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Robert/Documents/commons-validator-1.4.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Robert/Documents/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Robert/Documents/pircbot.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
