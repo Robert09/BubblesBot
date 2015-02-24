@@ -12,7 +12,7 @@ public class Launch {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BotWindow frame = new BotWindow();
+					BotWindow frame = new BotWindow(new BubblesBot());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

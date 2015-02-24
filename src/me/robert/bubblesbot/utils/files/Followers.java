@@ -17,9 +17,13 @@ public class Followers extends BotFile implements Runnable {
 	public static boolean run = true;
 	private int i = 0;
 
+	private Thread thread = null;
+
 	public Followers(BubblesBot b) throws IOException {
-		super(b, "C:" + File.separator + "BubblesBot" + File.separator + "follower tracking" + File.separator + "Followers_" + b.getChannel(false)
-				+ ".properties");
+		// "C:" + File.separator + "BubblesBot" + File.separator +
+		// "Follower Tracking" + File.separator + b.getChannel(false) +
+		// ".properties"
+		super(b, "C:" + File.separator + "BubblesBot" + File.separator + "Follower Tracking" + File.separator + b.getChannel(false) + ".properties");
 		json = BubblesBot.json;
 	}
 
@@ -32,7 +36,7 @@ public class Followers extends BotFile implements Runnable {
 		else
 			checkFollowers(false);
 		run = true;
-		Thread thread = new Thread(this);
+		thread = new Thread(this);
 		thread.start();
 	}
 
@@ -49,9 +53,10 @@ public class Followers extends BotFile implements Runnable {
 	@Override
 	public void run() {
 		while (run) {
-			checkFollowers(true);
-			BotWindow.output(LEVEL.DeBug, "Checked for new followers");
 			try {
+				boolean check = bot.settingsFile.getBoolean("notifyFollow");
+				BotWindow.output(LEVEL.DeBug, "Checked for new followers" + " Should notify: " + check);
+				checkFollowers(check);
 				synchronized (this) {
 					this.wait(10000);
 				}
@@ -106,10 +111,10 @@ public class Followers extends BotFile implements Runnable {
 	public void checkFollowers(boolean output) {
 		JsonObject obj;
 		try {
-			obj = json.parse(
-					HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/channels/" + this.bot.getChannel(false) + "/follows?limit=2" + i))
-					.getAsJsonObject();
+			String link = "https://api.twitch.tv/kraken/channels/" + this.bot.getChannel(false) + "/follows?limit=2" + i;
+			obj = json.parse(HTTPConnect.GetResponsefrom(link)).getAsJsonObject();
 			i = i == 0 ? 1 : 0;
+			BotWindow.output(LEVEL.DeBug, link);
 		} catch (IllegalStateException ex) {
 			return;
 		}
@@ -119,8 +124,9 @@ public class Followers extends BotFile implements Runnable {
 			String temp = list.get(i).getAsJsonObject().get("user").getAsJsonObject().get("display_name").getAsString();
 			if (!super.properties.containsKey(temp.toLowerCase())) {
 				if (output) {
-					BotWindow.output(LEVEL.Info, temp + " just followed!");
-					// this.bot.message(temp + " Has just followed!!!");
+					// BotWindow.output(LEVEL.Info, temp + " just followed!");
+					// // this.bot.message(temp
+					this.bot.message("/me " + temp + " just followed!");
 				}
 				super.setSetting(temp.toLowerCase(), list.get(i).getAsJsonObject().get("created_at"));
 			}

@@ -15,10 +15,13 @@ public class BotFile {
 	protected File file;
 	protected Properties properties;
 
+	protected boolean exists;
+
 	public BotFile(BubblesBot b, String path) throws IOException {
 		bot = b;
 		properties = new Properties();
 		file = new File(path);
+		exists = file.exists();
 		if (!file.exists()) {
 			file.getParentFile().mkdirs();
 			file.createNewFile();
@@ -48,6 +51,12 @@ public class BotFile {
 	 * @return The value of the given key.
 	 */
 	public String getSetting(String key) {
+		try {
+			iStream = new FileInputStream(file);
+			properties.load(iStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return properties.getProperty(key);
 	}
 

@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import me.robert.bubblesbot.gui.BotWindow;
 import me.robert.bubblesbot.gui.BotWindow.LEVEL;
 import me.robert.bubblesbot.utils.HTTPConnect;
+import me.robert.bubblesbot.utils.Settings;
+import me.robert.bubblesbot.utils.Vars;
 import me.robert.bubblesbot.utils.files.Followers;
+import me.robert.bubblesbot.utils.files.LoginFile;
+import me.robert.bubblesbot.utils.files.SettingsFile;
 
 import org.jibble.pircbot.PircBot;
 
@@ -15,29 +19,51 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class BubblesBot extends PircBot {
-	private String stream = "";
+	public static String stream = "";
 
 	private ArrayList<String> viewers;
 
 	public String botName;
 
 	public String[] mods;
+	public String[] noMods = { "o3bubbles09" };
 
 	public boolean isConnected = false;
 	public boolean isInChannel = false;
+	public boolean filesLoaded = false;
 
 	public static JsonParser json;
+
+	// Files
+	public SettingsFile settingsFile;
+	public LoginFile loginFile;
 	public Followers followersFile;
+
+	public Settings settings;
 
 	public BubblesBot() {
 		json = new JsonParser();
+		loadFiles();
+	}
+
+	/**
+	 * Loads the files needed for the bot
+	 */
+	private void loadFiles() {
+		try {
+			settingsFile = new SettingsFile(this);
+			loginFile = new LoginFile(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		filesLoaded = true;
 	}
 
 	/**
 	 * Connects the bot to the Twitch servers.
 	 */
 	public void connectToTwitch(String botName, String oAuth) {
-		setVerbose(true);
+		setVerbose(Vars.isDebug);
 		this.botName = botName;
 		BotWindow.output(LEVEL.Info, "Trying to connect to twitch...");
 		try {
@@ -84,13 +110,12 @@ public class BubblesBot extends PircBot {
 		stream = "#" + channel;
 		joinChannel(stream);
 		BotWindow.output(LEVEL.Info, "Connected to " + stream.substring(1) + "'s channel!");
-		try {
-			followersFile = new Followers(this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		followersFile.initFollowerTracker();
 		isInChannel = true;
+		try { followersFile = new Followers(this); } catch (IOException e) { e.printStackTrace(); }
+		if (filesLoaded) {
+			followersFile.initFollowerTracker();
+			settings.initSettings();
+		}
 	}
 
 	/**
@@ -99,6 +124,7 @@ public class BubblesBot extends PircBot {
 	public void disconnectFromChannel() {
 		String old = stream;
 		stream = "";
+		partChannel(old);
 		BotWindow.output(LEVEL.Info, "Disconnected from " + old.substring(1) + "'s channel!");
 		mods = new String[0];
 		isInChannel = false;
@@ -186,6 +212,9 @@ public class BubblesBot extends PircBot {
 
 	@Override
 	protected void onMessage(String channel, String sender, String login, String hostname, String message) {
+		if (message.equalsIgnoreCase("!explain")) {
+			message("/me I am a bot that O3Bubbles09 is working on, I am made with Java and the PircBot api!");
+		}
 		BotWindow.onMessage(sender, message);
 	}
 
@@ -199,6 +228,8 @@ public class BubblesBot extends PircBot {
 			message += ", " + stream.substring(stream.indexOf("#") + 1);
 			mods = message.split(", ");
 			BotWindow.output(LEVEL.Info, "BubblesBot has received the list of Mods for this channel!");
+		} else if (message.contains("There are no moderators of this channel.")) {
+			mods = noMods;
 		}
 	}
 

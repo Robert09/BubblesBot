@@ -1,7 +1,6 @@
 package me.robert.bubblesbot;
 
 public class StartBot implements Runnable {
-
 	BubblesBot bot;
 	String botName;
 	String oAuth;
