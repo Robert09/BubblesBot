@@ -51,7 +51,7 @@ public class FollowerFile extends BotFile implements Runnable {
 	public void run() {
 		while (run) {
 			checkFollowers(true);
-			// ConsoleTab.output(Level.DeBug, "Checked for new followers");
+			ConsoleTab.output(Level.DeBug, "Checked for new followers");
 			try {
 				synchronized (this) {
 					this.wait(10000);
@@ -116,8 +116,8 @@ public class FollowerFile extends BotFile implements Runnable {
 		}
 		JsonArray list = obj.get("follows").getAsJsonArray();
 		for (int i = 0; i < list.size(); i++) {
-
 			String temp = list.get(i).getAsJsonObject().get("user").getAsJsonObject().get("display_name").getAsString();
+
 			if (!super.properties.containsKey(temp.toLowerCase())) {
 				if (output) {
 					this.bot.sendMessageToStream(temp + " Has just followed!!!");

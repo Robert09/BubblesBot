@@ -94,6 +94,7 @@ public class ViewersTab extends BotTab {
 	}
 
 	public void unload() {
+		super.remove(scrollPane);
 		super.setVisible(false);
 	}
 }

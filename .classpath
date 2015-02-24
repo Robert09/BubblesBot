@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="C:/Users/Robert/Documents/commons-validator-1.4.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Robert/Documents/gson-2.3.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Robert/Documents/pircbot.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Robert/Documents/sqlite-jdbc-3.8.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

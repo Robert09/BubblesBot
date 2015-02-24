@@ -41,6 +41,7 @@ public class ConsoleTab extends BotTab implements KeyListener {
 		add(scrollPane);
 
 		textField = new JTextField();
+		textField.setBackground(Color.LIGHT_GRAY);
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, -30, SpringLayout.SOUTH, textField);
 		springLayout.putConstraint(SpringLayout.WEST, textField, 10, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, textField, -10, SpringLayout.SOUTH, this);
