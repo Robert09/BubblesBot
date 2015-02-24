@@ -10,8 +10,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import me.robert.bob.BubblesOfficialBot;
 import me.robert.bob.gui.tabs.ChatTab;
 import me.robert.bob.gui.tabs.ConsoleTab;
+import me.robert.bob.gui.tabs.ViewersTab;
 
 public class Window extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -26,14 +28,19 @@ public class Window extends JFrame implements ActionListener {
 	private static BotTab currentTab;
 	private static ChatTab chatTab;
 	private static ConsoleTab consoleTab;
+	private ViewersTab viewersTab;
+
+	private static BubblesOfficialBot bot;
 
 	/**
 	 * Create the frame.
 	 */
 
-	public Window() {
+	public Window(BubblesOfficialBot b) {
+		bot = b;
 		chatTab = new ChatTab();
 		consoleTab = new ConsoleTab();
+		viewersTab = new ViewersTab();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 550);
@@ -62,6 +69,15 @@ public class Window extends JFrame implements ActionListener {
 		super.add(currentTab);
 		currentTab.load();
 
+		// Add Viewers.
+		menu = new JMenu("Viewers");
+		menuBar.add(menu);
+
+		// Chat
+		item = new JMenuItem("Viewers");
+		item.addActionListener(this);
+		menu.add(item);
+
 		setVisible(true);
 		this.revalidate();
 	}
@@ -76,6 +92,8 @@ public class Window extends JFrame implements ActionListener {
 				currentTab = chatTab;
 			else if (eItem.getText().equalsIgnoreCase("Console"))
 				currentTab = consoleTab;
+			else if (eItem.getText().equalsIgnoreCase("Viewers"))
+				currentTab = viewersTab;
 
 			sl_contentPane.putConstraint(SpringLayout.NORTH, currentTab, 0, SpringLayout.NORTH, contentPane);
 			sl_contentPane.putConstraint(SpringLayout.WEST, currentTab, 0, SpringLayout.WEST, contentPane);
@@ -89,5 +107,14 @@ public class Window extends JFrame implements ActionListener {
 			this.revalidate();
 			this.repaint();
 		}
+	}
+
+	public static BubblesOfficialBot getBot() {
+		return bot;
+	}
+
+	public static void reload() {
+		currentTab.unload();
+		currentTab.load();
 	}
 }
