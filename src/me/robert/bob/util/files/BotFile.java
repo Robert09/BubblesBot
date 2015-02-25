@@ -1,4 +1,4 @@
-package me.robert.bob.util;
+package me.robert.bob.util.files;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,6 +38,10 @@ public class BotFile {
 	public void setSetting(String key, Object o) {
 		properties.setProperty(key, o.toString());
 		save();
+	}
+
+	public void setList(String key, Object o) {
+		properties.put(key, o);
 	}
 
 	/**

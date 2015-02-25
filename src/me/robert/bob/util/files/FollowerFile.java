@@ -6,7 +6,6 @@ import java.io.IOException;
 import me.robert.bob.BubblesOfficialBot;
 import me.robert.bob.gui.tabs.ConsoleTab;
 import me.robert.bob.gui.tabs.ConsoleTab.Level;
-import me.robert.bob.util.BotFile;
 import me.robert.bob.util.HTTPHelper;
 
 import com.google.gson.JsonArray;
@@ -15,6 +14,7 @@ import com.google.gson.JsonParser;
 
 public class FollowerFile extends BotFile implements Runnable {
 	private JsonParser json;
+	private JsonArray list;
 	public static boolean run = true;
 	private int i = 0;
 
@@ -114,7 +114,7 @@ public class FollowerFile extends BotFile implements Runnable {
 		} catch (IllegalStateException ex) {
 			return;
 		}
-		JsonArray list = obj.get("follows").getAsJsonArray();
+		list = obj.get("follows").getAsJsonArray();
 		for (int i = 0; i < list.size(); i++) {
 			String temp = list.get(i).getAsJsonObject().get("user").getAsJsonObject().get("display_name").getAsString();
 
